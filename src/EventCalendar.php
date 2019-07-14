@@ -86,7 +86,14 @@ class EventCalendar {
         $calendarExport = new CalendarExport(new CalendarStream, new Formatter());
         $calendarExport->addCalendar($calendar);
 
-        echo $calendarExport->getStream();
+        $streamOut = $calendarExport->getStream();
+
+        header("Content-type:text/calendar");
+        header('Content-Disposition: attachment; filename="EventCalendar.ics"');
+//header('Content-Disposition: attachment; filename="'.$this->name.'.ics"');
+        Header('Content-Length:'.strlen($streamOut));
+        Header('Connection: close');
+        echo $streamOut;
 
     }
 
