@@ -1,0 +1,11 @@
+{
+    "require": {
+        "jsvrcek/ics": "^0.6.0",
+        "paquettg/php-html-parser": "^1.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "CallEventCalendar\\":"src/"
+        }
+    }
+}
