@@ -87,8 +87,9 @@ class EventCalendar {
         $calendarExport->addCalendar($calendar);
 
         $streamOut = $calendarExport->getStream();
+        //$streamOut = htmlentities('<test>  &#039;  klaus"" look & tgftftr % AAê------------‚');
 
-        header("Content-type:text/calendar");
+        header('Content-type:text/calendar; charset=UTF-8');
         header('Content-Disposition: attachment; filename="EventCalendar.ics"');
 //header('Content-Disposition: attachment; filename="'.$this->name.'.ics"');
         Header('Content-Length:'.strlen($streamOut));
