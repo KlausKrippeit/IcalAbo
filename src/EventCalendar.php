@@ -45,21 +45,27 @@ class EventCalendar {
         $ret = [];
 
         if(preg_match($pattern, $dateString, $ma) ) {
-            //echo 'weekday' . $ma[1].PHP_EOL;
             $ret['weekday'] = $ma[1];
-            //echo 'date' . $ma[2].$ma[3].$ma[4].PHP_EOL;
-
             $j = $ma[2] > 9 ? $ma[2] : '0' . $ma[2];
             $m = $ma[3] > 9 ? $ma[3] : '0' . $ma[3];
             $ret['eventDate'] = $j.$m.$ma[4];
-            //echo 'time' . $ma[5].PHP_EOL;
             $ret['time'] = $ma[5];
-            //echo 'ort' . $ma[6].PHP_EOL;
             $ret['location'] = $ma[6];
-
         }
         return $ret;
 
+    }
+    
+    public function soldout($event) {
+
+        $pattern = '/^(AUSVERKAUFT!)/';
+        $ret['soldout'] = '';
+
+        if (preg_match($pattern, $event, $ma)) {
+            $ret['soldout'] = $ma[1];
+        }
+
+        return $ret;
     }
 
     public function ics($events) {
@@ -72,7 +78,7 @@ class EventCalendar {
         foreach ($events as $event) {
 
             $date = DateTime::createFromFormat('jmyH:i', $event['eventDate'] . $event['time'], new \DateTimeZone('Europe/Berlin'));
-            $summary = html_entity_decode($event['title'], ENT_QUOTES, 'UTF-8');
+            $summary = html_entity_decode($event['soldout'].$event['title'], ENT_QUOTES, 'UTF-8');
             $eventId = md5(uniqid(mt_rand() . $event['location'], true));
             $eventOne = new CalendarEvent();
             $eventOne->setStart($date)

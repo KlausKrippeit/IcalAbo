@@ -7,5 +7,6 @@ $g = $cal->showme();
 foreach ($g as $key => $item) {
     //var_dump($item);;
     $g[$key] = array_merge($g[$key], $cal->parseDate($item['date']));
+    $g[$key] = array_merge($g[$key], $cal->soldout($item['text']));
 }
 $cal->ics($g);
