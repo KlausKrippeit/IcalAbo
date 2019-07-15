@@ -77,7 +77,7 @@ class EventCalendar {
             $eventOne = new CalendarEvent();
             $eventOne->setStart($date)
                 ->setSummary($summary)
-                ->setDescription($event['location'] . ' | ' . htmlspecialchars_decode($event['text']))
+                ->setDescription($event['location'] . ' | ' . html_entity_decode($event['text'], ENT_QUOTES, 'UTF-8'))
                 ->setUid($eventId);
             $calendar->addEvent($eventOne);
 
