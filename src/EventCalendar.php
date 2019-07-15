@@ -72,7 +72,7 @@ class EventCalendar {
         foreach ($events as $event) {
 
             $date = DateTime::createFromFormat('jmyH:i', $event['eventDate'] . $event['time'], new \DateTimeZone('Europe/Berlin'));
-            $summary = $event['title'];
+            $summary = html_entity_decode($event['title'], ENT_QUOTES, 'UTF-8');
             $eventId = md5(uniqid(mt_rand() . $event['location'], true));
             $eventOne = new CalendarEvent();
             $eventOne->setStart($date)
@@ -85,13 +85,10 @@ class EventCalendar {
 
         $calendarExport = new CalendarExport(new CalendarStream, new Formatter());
         $calendarExport->addCalendar($calendar);
-
         $streamOut = $calendarExport->getStream();
-        //$streamOut = htmlentities('<test>  &#039;  klaus"" look & tgftftr % AAê------------‚');
 
         header('Content-type:text/calendar; charset=UTF-8');
         header('Content-Disposition: attachment; filename="EventCalendar.ics"');
-//header('Content-Disposition: attachment; filename="'.$this->name.'.ics"');
         Header('Content-Length:'.strlen($streamOut));
         Header('Connection: close');
         echo $streamOut;
