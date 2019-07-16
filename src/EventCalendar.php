@@ -11,6 +11,7 @@ use Jsvrcek\ICS\Utility\Formatter;
 use Jsvrcek\ICS\CalendarStream;
 use Jsvrcek\ICS\CalendarExport;
 use \DateTime;
+use \DateInterval;
 
 class EventCalendar {
 
@@ -78,10 +79,13 @@ class EventCalendar {
         foreach ($events as $event) {
 
             $date = DateTime::createFromFormat('jmyH:i', $event['eventDate'] . $event['time'], new \DateTimeZone('Europe/Berlin'));
+            $endDate = clone $date;
+            $endDate->add(new DateInterval('PT2H'));
             $summary = html_entity_decode($event['soldout'] . ' ' . $event['title'], ENT_QUOTES, 'UTF-8');
             $eventId = md5(uniqid(mt_rand() . $event['location'], true));
             $eventOne = new CalendarEvent();
             $eventOne->setStart($date)
+                ->setEnd($endDate)
                 ->setSummary($summary)
                 ->setDescription($event['location'] . ' | ' . html_entity_decode($event['text'], ENT_QUOTES, 'UTF-8'))
                 ->setUid($eventId);
