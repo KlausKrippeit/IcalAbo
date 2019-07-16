@@ -74,7 +74,7 @@ class EventCalendar {
         $calendar = new Calendar();
         $calendar->setProdId('-//localhost//NONSGML CallEventCalendar//App//DE')
             ->setTimezone(new \DateTimeZone('Europe/Berlin'));
-
+echo '###';
         foreach ($events as $event) {
 
             $date = DateTime::createFromFormat('jmyH:i', $event['eventDate'] . $event['time'], new \DateTimeZone('Europe/Berlin'));
