@@ -72,7 +72,7 @@ class EventCalendar {
 
         date_default_timezone_set('Europe/Berlin');
         $calendar = new Calendar();
-        $calendar->setProdId('-//CallEventCalendar//App//EN')
+        $calendar->setProdId('-//localhost//NONSGML CallEventCalendar//App//DE')
             ->setTimezone(new \DateTimeZone('Europe/Berlin'));
 
         foreach ($events as $event) {
