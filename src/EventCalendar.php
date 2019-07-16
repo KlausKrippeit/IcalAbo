@@ -14,7 +14,7 @@ use \DateTime;
 
 class EventCalendar {
 
-    const ZMF_PROGRAM_URL = 'https://zmf.de/programm2019';
+    const ZMF_PROGRAM_URL = 'http://zmf.de/programm2019';
 
     public function showme() {
 
