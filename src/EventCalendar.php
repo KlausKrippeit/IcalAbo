@@ -16,6 +16,13 @@ use \DateInterval;
 class EventCalendar {
 
     const ZMF_PROGRAM_URL = 'http://zmf.de/programm2019';
+    private $textHeader = false;
+
+    public function setTextHeader($textHeader) {
+        if ($textHeader == 'text') {
+            $this->textHeader = true;
+        }
+    }
 
     public function showme() {
 
@@ -96,8 +103,12 @@ class EventCalendar {
         $calendarExport = new CalendarExport(new CalendarStream, new Formatter());
         $calendarExport->addCalendar($calendar);
         $streamOut = $calendarExport->getStream();
-
-        header('Content-type:text/calendar; charset=UTF-8');
+        
+        if ($this->textHeader) {
+            header('Content-type:text/plain; charset=UTF-8');
+        } else {
+            header('Content-type:text/calendar; charset=UTF-8');
+        }
         header('Content-Disposition: attachment; filename="EventCalendar.ics"');
         Header('Content-Length:'.strlen($streamOut));
         Header('Connection: close');
