@@ -1,7 +1,7 @@
 {
     "require": {
         "jsvrcek/ics": "^0.6.0",
-        "paquettg/php-html-parser": "^1.7"
+        "paquettg/php-html-parser": "^2.1"
     },
     "autoload": {
         "psr-4": {
