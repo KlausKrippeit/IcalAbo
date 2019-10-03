@@ -49,14 +49,16 @@ class EventCalendar {
         // date : (31|30|[012]\d|\d)\.(0\d|1[012]|\d)\.(19[789]\d|20[0123]\d|[01]\d)
         // time: (([01]?\d|2[0-3]):([0-5]?\d)) Uhr
         //$pattern = '/(^.{2}) (31|30|[012]\d|\d)\.(0\d|1[012]|\d)\.(19[789]\d|20[0123]\d|[01]\d) ([01]?\d|2[0-3]:[0-5]?\d)&nbsp;Uhr, (.*)/';
-        $pattern = '/(^.{2}) (31|30|[012]\d|\d)\.(0\d|1[012]|\d)\.(19[789]\d|20[0123]\d|[01]\d) ([012][0-9]:[0-5]?\d)&nbsp;Uhr, (.*)/';
+        $pattern = '/(^.{2}) (31|30|[012]\d|\d)\.(0\d|1[012]|\d)\.(19[789]\d|20[0123]\d|[012]\d) ([012][0-9]:[0-5]?\d)&nbsp;Uhr, (.*)/';
         $ret = [];
 
         if(preg_match($pattern, $dateString, $ma) ) {
+            //var_dump($ma);
             $ret['weekday'] = $ma[1];
-            $j = $ma[2] > 9 ? $ma[2] : '0' . $ma[2];
-            $m = $ma[3] > 9 ? $ma[3] : '0' . $ma[3];
-            $ret['eventDate'] = $j.$m.$ma[4];
+            $day = $ma[2] > 9 ? $ma[2] : '0' . $ma[2];
+            $month = $ma[3] > 9 ? $ma[3] : '0' . $ma[3];
+            $year = $ma[4];
+            $ret['eventDate'] = $day.$month.$year;
             $ret['time'] = $ma[5];
             $ret['location'] = $ma[6];
         }
@@ -84,7 +86,6 @@ class EventCalendar {
             ->setTimezone(new \DateTimeZone('Europe/Berlin'));
 
         foreach ($events as $event) {
-
             $date = DateTime::createFromFormat('jmyH:i', $event['eventDate'] . $event['time'], new \DateTimeZone('Europe/Berlin'));
             $endDate = clone $date;
             $endDate->add(new DateInterval('PT1H'));
@@ -108,8 +109,8 @@ class EventCalendar {
             header('Content-type:text/plain; charset=UTF-8');
         } else {
             header('Content-type:text/calendar; charset=UTF-8');
+            header('Content-Disposition: attachment; filename="EventCalendar.ics"');
         }
-        header('Content-Disposition: attachment; filename="EventCalendar.ics"');
         Header('Content-Length:'.strlen($streamOut));
         Header('Connection: close');
         echo $streamOut;
